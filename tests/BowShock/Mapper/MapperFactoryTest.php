@@ -1,7 +1,8 @@
 <?php
 
+require_once 'MapperImpl.php';
+
 use BowShock\Mapper\MapperFactory;
-use BowShock\Mapper\Db\TestDummy;
 
 /**
  * @covers \BowShock\Mapper\MapperFactory
@@ -21,7 +22,8 @@ class BowShock_Mapper_MapperFactoryTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->factory = MapperFactory::getInstance();
-        $this->mapper  = new TestDummy();
+        $this->factory->setMapperNamespace('');
+        $this->mapper  = new MapperImpl();
     }
 
     /**
@@ -56,27 +58,20 @@ class BowShock_Mapper_MapperFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetMapperReturnsRegisteredMapper()
     {
         $this->factory->registerMapper($this->mapper);
-        $mapper = $this->factory->getMapper('BowShock\\Mapper\\Db\\TestDummy');
+        $mapper = $this->factory->getMapper('MapperImpl');
         $this->assertSame($mapper, $this->mapper);
     }
 
     public function testGetMapperCreatesNewMapper()
     {
-        $mapper = $this->factory->getMapper('BowShock\\Mapper\\Db\\TestDummy');
+        $mapper = $this->factory->getMapper('MapperImpl');
         $this->assertNotSame($mapper, $this->mapper);
-    }
-
-    public function testInvokeMagicMethodWithDefaultNamespace()
-    {
-        $mapper = $this->factory->getTestDummyMapper();
-        $this->assertInstanceOf('BowShock\\Mapper\\Db\\TestDummy', $mapper);
     }
 
     public function testInvokeMagicMethodWithCustomNamespace()
     {
-        $this->factory->setMapperNamespace('\\BowShock\\Mapper\\Db');
-        $mapper = $this->factory->getTestDummyMapper();
-        $this->assertInstanceOf('\\BowShock\\Mapper\\Db\\TestDummy', $mapper);
+    	$mapper = $this->factory->getMapperImplMapper();
+        $this->assertInstanceOf('MapperImpl', $mapper);
     }
 
     /**

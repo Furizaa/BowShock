@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ModelImpl.php';
+
 use BowShock\Model\TestDummy;
 
 /**
@@ -9,7 +11,7 @@ class BowShock_Model_BaseModelTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \BowShock\Model\TestDummy
+     * @var ModelImpl
      */
     private $base;
 
@@ -19,7 +21,7 @@ class BowShock_Model_BaseModelTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->base = new TestDummy();
+        $this->base = new ModelImpl();
     }
 
     /**

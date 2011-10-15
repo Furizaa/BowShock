@@ -3,6 +3,9 @@
 require_once 'Zend/Db/Adapter/Pdo/Mysql.php';
 require_once 'Zend/Db/Table/Abstract.php';
 
+require_once 'tests/BowShock/Mapper/MapperImpl.php';
+require_once 'DbTableImpl.php';
+
 use BowShock\Model\DbTable\TableFactory,
 	BowShock\Mapper\Db\TestDummy;
 
@@ -78,15 +81,15 @@ class BowShock_Model_DbTable_TableFactoryTest extends \PHPUnit_Framework_TestCas
 
     public function testCreateDefaultTable()
     {
-        $this->factory->setDefaultTable('BowShock\\Model\\DbTable\\TestDummy');
-        $this->assertInstanceOf('BowShock\\Model\\DbTable\\TestDummy', $this->factory->createMappedTable('...'));
+        $this->factory->setDefaultTable('DbTableImpl');
+        $this->assertInstanceOf('DbTableImpl', $this->factory->createMappedTable('...'));
     }
 
     public function testCreateMappedTable()
     {
-        $this->factory->setTableForMapper('BowShock\\Model\\DbTable\\TestDummy', 'BowShock\\Mapper\\Db\\TestDummy');
-        $mapper = new TestDummy();
-        $this->assertInstanceOf('BowShock\\Model\\DbTable\\TestDummy', $this->factory->createMappedTable($mapper));
+        $this->factory->setTableForMapper('DbTableImpl', 'MapperImpl');
+        $mapper = new MapperImpl();
+        $this->assertInstanceOf('DbTableImpl', $this->factory->createMappedTable($mapper));
     }
 
     /**
@@ -102,8 +105,8 @@ class BowShock_Model_DbTable_TableFactoryTest extends \PHPUnit_Framework_TestCas
      */
     public function testRegisteredBogusTableThrowsException()
     {
-        $this->factory->setTableForMapper('Boogus', 'BowShock\\Model\\DbTable\\TestDummy');
-        $this->factory->createMappedTable('BowShock\\Model\\DbTable\\TestDummy');
+        $this->factory->setTableForMapper('Boogus', 'DbTableImpl');
+        $this->factory->createMappedTable('DbTableImpl');
     }
 
 }

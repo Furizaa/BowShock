@@ -73,7 +73,7 @@ class MapperFactory
      */
     public function getMapperNamespace()
     {
-        return trim($this->mapperNamespace, '\\') . '\\';
+        return $this->mapperNamespace;
     }
 
     /**
